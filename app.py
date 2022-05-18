@@ -37,14 +37,13 @@ def token_required(f):
     return decorated
 
 
-@app.route('/user', methods=['POST'])
+@app.route('/user/', methods=['POST'])
 @token_required
 def create_user(current_user):
     data = request.get_json()
 
     sql = f"""INSERT INTO user ( name , cellphone ) values= ('{data["name"]}',{data["cellphone"]})"""
 
-  
     db.engine.execute(sql)
     db.session.commit()
 
@@ -60,7 +59,6 @@ def get_users(current_user):
     users = db.engine.execute(sql)
 
     output = []
-
     for user in users:
         user_data = {}
         user_data['id_user'] = user[0]
@@ -80,6 +78,7 @@ def edit_user(current_user,id_user):
     sql = f"""UPDATE USER SET name = '{data["name"]}',cellphone = {data["cellphone"]} WHERE id_user = {id_user}"""
     
     db.engine.execute(sql)
+    db.session.commit()
 
     return jsonify({"message": "User was edited successfully"})
 
