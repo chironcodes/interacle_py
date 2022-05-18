@@ -9,7 +9,7 @@ Even though it's possible to use Model with flask, it was designed to fetch only
 For the moment headers/tokens/auth will be hard coded as it'll be integrated with our cloud solution.
 
 
-
+If you intend to test it locally, you should unzip **instantclient-basic*.zip** and export its path as *LD_LIBRARY_PATH*.
 
 
 Building your image and pushing it to hub.docker for later use
