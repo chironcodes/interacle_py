@@ -2,37 +2,57 @@
 
 
 
+This MVP solution longs to integrate an Oracle database. The project fetches data through SQL queries and feeds through a Rest API so it can be consumed.
+
+Even though it's possible to use Model with flask, it was designed to fetch only specific columns and that we cannot do with ORM.
+
+For the moment headers/tokens/auth will be hard coded as it'll be integrated with our cloud solution.
+
+
+
+
+
 Building your image and pushing it to hub.docker for later use
 
+```bash
 docker image build -t <name_image> .
 
 docker tag <name_image>:latest <your_hub.docker>/<repo>:latest
 
 docker push <your_hub.docker>/<repo>:latest
+```
 
 
 
-Using remote image to deploy a k8s solution
+You can deploy the API as a single docker container. To achieve this, you should fill in your credentials on **env.list** file and deploy it like this:
+
+```bash
+docker run -d -p 5000:5000 --env-file env.list --name integrate_me <your_hub.docker>/<repo>:latest
+```
 
 
 
-​	kubectl create namespace <your_namespace>
+## Using remote image to deploy a Kubernetes solution:
 
-​	kubectl apply -f deployment.yaml -n <your_namespace>
+If you intend to use it with k8s you should fill in your credentials inside the **Deployment.yaml** file before taking the next steps
 
-​	kubectl apply -f service.yaml -n <your_namespace>
+
+
+```bash
+kubectl create namespace <your_namespace>
+
+kubectl apply -f deployment.yaml -n <your_namespace>
+
+kubectl apply -f service.yaml -n <your_namespace>
 
 kubectl expose deployment <your_deployment> --port=5000 --type=<service_type>
+```
 
-Obs:Refer to [ Services ](https://kubernetes.io/docs/concepts/services-networking/service/ )to see service types
+Refer to [ Services ](https://kubernetes.io/docs/concepts/services-networking/service/ )to see service types
 
 
 
-Fill in your credentials inside env.list
 
-#builds your image
-docker image build -t rcl_inte_api .
 
-#runs docker parsing port, envs, setting a name and deatched mode
-docker run -p 5000:5000 --env-file env.list --name client_intg_api -d
+
 

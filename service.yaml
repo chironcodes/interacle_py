@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: interacle_py-service
+spec:
+  selector:
+    app: interacle_py
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
